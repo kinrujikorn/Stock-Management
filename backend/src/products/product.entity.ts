@@ -1,17 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Categories } from '../categories/categories.entity'; // ปรับ path ให้ถูก
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Category } from '../category/category.entity'; // ปรับ path ให้ถูก
 
-@Entity()
+@Entity('product') // Explicitly name the table
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true }) // Allow NULL values to match existing DB
   name: string;
 
-  @Column()
+  @Column({ default: 0 }) // Keep default, remove nullable
   quantity: number;
 
-  @ManyToOne(() => Categories, (category) => category.products)
-  category: Categories;
+  @Column({ name: 'category_id', nullable: true }) // Remove nullable constraint
+  category_id: number;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
-import { CategoriesModule } from './categories/categories.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { CategoriesModule } from './categories/categories.module';
       synchronize: true, // true ตอน dev เท่านั้น
     }),
     ProductsModule,
-    CategoriesModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}

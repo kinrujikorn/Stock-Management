@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './product.entity';
@@ -16,7 +16,7 @@ export class ProductsService {
       return this.productRepo.find({
         where: {
           category: {
-            categories_name: category,
+            category_name: category,
           },
         },
         relations: ['category'], // ต้อง include ความสัมพันธ์
@@ -28,9 +28,17 @@ export class ProductsService {
     });
   }
 
-  create(data: CreateProductDto) {
-    const newProduct = this.productRepo.create(data);
-    return this.productRepo.save(newProduct);
+  async create(data: CreateProductDto) {
+    if (!data.name) {
+      throw new BadRequestException('Product name is required');
+    }
+    const newProduct = this.productRepo.create({
+      name: data.name,
+      quantity: data.quantity,
+      category_id: data.category_id,
+    });
+
+    return await this.productRepo.save(newProduct);
   }
 
   update(id: string, data: CreateProductDto) {
