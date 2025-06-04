@@ -6,6 +6,7 @@ type Product = {
   name: string;
   quantity: number;
   category_id: number;
+  price: number;
 };
 
 type Category = {
@@ -22,6 +23,7 @@ export default function AddProductForm({
     name: "",
     quantity: 0,
     category_id: 0,
+    price: 0,
   });
 
   const [category, setcategory] = useState<Category[]>([]);
@@ -57,7 +59,7 @@ export default function AddProductForm({
     try {
       const res = await createProduct(form);
       alert("เพิ่มสินค้าสำเร็จ 🎉");
-      setForm({ name: "", quantity: 0, category_id: 0 });
+      setForm({ name: "", quantity: 0, category_id: 0, price: 0 });
       onSuccess?.();
     } catch (err) {
       console.error(err);
@@ -86,6 +88,16 @@ export default function AddProductForm({
             onChange={handleChange}
             placeholder="Quantity"
             value={form.quantity}
+            required
+            className="border-gray-300 border-solid border-2 rounded-lg"
+          />
+
+          <input
+            type="number"
+            name="price"
+            onChange={handleChange}
+            placeholder="Price"
+            value={form.price}
             required
             className="border-gray-300 border-solid border-2 rounded-lg"
           />

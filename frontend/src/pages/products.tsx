@@ -4,12 +4,16 @@ import { getProducts } from "@/services/productService";
 import Navbar from "@/components/Navbar";
 import EditProductInformationForm from "@/components/EditProductInformationForm";
 import DeleteProduct from "@/components/DeleteProduct";
+import Modal from "@/components/ModalForm";
+import { FiEdit } from "react-icons/fi";
+import { BsTrash } from "react-icons/bs";
 
 type Product = {
   id: number;
   name: string;
   quantity: number;
   category_id: number;
+  price: number;
 };
 
 export default function ProductsList() {
@@ -46,9 +50,9 @@ export default function ProductsList() {
     <div>
       <Navbar />
       <div className="container mx-auto px-4 pt-20">
-        {/* Header with action buttons */}
+        {/* Header and Add Product Form remain the same */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Product List 🧾 </h2>
+          <h2 className="text-3xl font-bold">Product List 🧾 </h2>
           <div className="space-x-4">
             <button
               onClick={() => {
@@ -64,52 +68,52 @@ export default function ProductsList() {
           </div>
         </div>
 
-        {/* Forms Section */}
+        {/* Forms Section - only AddProductForm remains here */}
         <div className="mb-6">
           {showForm && <AddProductForm onSuccess={handleFormSuccess} />}
-          {showEditForm && selectedProduct && (
-            <div>
-              <EditProductInformationForm
-                product={selectedProduct}
-                onSuccess={() => {
-                  setShowEditForm(false);
-                  setSelectedProduct(null);
-                  getProducts().then(setProducts);
-                }}
-              />
-              <button
-                onClick={() => {
-                  setShowEditForm(false);
-                  setSelectedProduct(null);
-                }}
-                className="mt-4 bg-gray-500 text-white rounded-lg px-6 py-2 hover:bg-gray-600"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-          {showDeleteForm && selectedProduct && (
-            <div>
-              <DeleteProduct
-                product={selectedProduct}
-                onSuccess={() => {
-                  setShowDeleteForm(false);
-                  setSelectedProduct(null);
-                  getProducts().then(setProducts);
-                }}
-              />
-              <button
-                onClick={() => {
-                  setShowDeleteForm(false);
-                  setSelectedProduct(null);
-                }}
-                className="mt-4 bg-gray-500 text-white rounded-lg px-6 py-2 hover:bg-gray-600"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
         </div>
+
+        {/* Edit Modal */}
+        <Modal
+          isOpen={showEditForm}
+          onClose={() => {
+            setShowEditForm(false);
+            setSelectedProduct(null);
+          }}
+          title={`Edit Product: ${selectedProduct?.name}`}
+        >
+          {selectedProduct && (
+            <EditProductInformationForm
+              product={selectedProduct}
+              onSuccess={() => {
+                setShowEditForm(false);
+                setSelectedProduct(null);
+                getProducts().then(setProducts);
+              }}
+            />
+          )}
+        </Modal>
+
+        {/* Delete Modal */}
+        <Modal
+          isOpen={showDeleteForm}
+          onClose={() => {
+            setShowDeleteForm(false);
+            setSelectedProduct(null);
+          }}
+          title="Delete Product"
+        >
+          {selectedProduct && (
+            <DeleteProduct
+              product={selectedProduct}
+              onSuccess={() => {
+                setShowDeleteForm(false);
+                setSelectedProduct(null);
+                getProducts().then(setProducts);
+              }}
+            />
+          )}
+        </Modal>
 
         {/* Product List with inline actions */}
         <div className="bg-white rounded-lg shadow">
@@ -122,6 +126,9 @@ export default function ProductsList() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Quantity
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Price
+                </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
                   Actions
                 </th>
@@ -132,18 +139,21 @@ export default function ProductsList() {
                 <tr key={p.id} className="hover:bg-gray-50">
                   <td className="text-black px-6 py-4">{p.name}</td>
                   <td className="text-black px-6 py-4">{p.quantity}</td>
+                  <td className="text-black px-6 py-4">{p.price}</td>
                   <td className="text-black px-6 py-4 text-right">
                     <button
                       onClick={() => handleEdit(p)}
-                      className="text-blue-600 hover:text-blue-900 mr-4"
+                      className="text-blue-600 hover:text-blue-900 mr-4 p-2 hover:bg-blue-50 rounded-full"
+                      title="Edit product"
                     >
-                      Edit
+                      <FiEdit size={20} />
                     </button>
                     <button
                       onClick={() => handleDelete(p)}
-                      className="text-red-600 hover:text-red-900"
+                      className="text-red-600 hover:text-red-900 p-2 hover:bg-red-50 rounded-full"
+                      title="Delete product"
                     >
-                      Delete
+                      <BsTrash size={20} />
                     </button>
                   </td>
                 </tr>

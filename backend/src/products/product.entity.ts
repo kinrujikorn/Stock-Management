@@ -21,6 +21,9 @@ export class Product {
   @Column({ name: 'category_id', nullable: true }) // Remove nullable constraint
   category_id: number;
 
+  @Column({ default: 0 }) // Keep default, remove nullable
+  price: number;
+
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
   category: Category;

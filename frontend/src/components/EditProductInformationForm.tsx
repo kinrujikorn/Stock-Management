@@ -7,6 +7,7 @@ type Product = {
   name: string;
   quantity: number;
   category_id: number;
+  price: number;
 };
 
 type Category = {
@@ -28,6 +29,7 @@ export default function EditProductInformationForm({
     name: product.name,
     quantity: product.quantity,
     category_id: product.category_id,
+    price: product.price,
   });
 
   useEffect(() => {
@@ -52,6 +54,7 @@ export default function EditProductInformationForm({
         name: form.name,
         quantity: Number(form.quantity),
         category_id: form.category_id,
+        price: form.price,
       });
       alert("อัพเดทข้อมูลสินค้าสำเร็จ 🎉");
       onSuccess();
@@ -87,6 +90,19 @@ export default function EditProductInformationForm({
             onChange={handleChange}
             className="w-full p-2 border rounded text-black"
             placeholder="Quantity"
+            required
+          />
+        </div>
+
+        <div>
+          <h3 className="text-black mb-1">Price</h3>
+          <input
+            type="number"
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            className="w-full p-2 border rounded text-black"
+            placeholder="Price"
             required
           />
         </div>

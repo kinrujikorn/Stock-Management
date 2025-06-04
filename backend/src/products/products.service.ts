@@ -36,6 +36,7 @@ export class ProductsService {
       name: data.name,
       quantity: data.quantity,
       category_id: data.category_id,
+      price: data.price,
     });
 
     return await this.productRepo.save(newProduct);

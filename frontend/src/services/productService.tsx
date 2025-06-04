@@ -25,6 +25,7 @@ export const updateProduct = async (
     name: string;
     quantity: number;
     category_id: number;
+    price: number;
   }
 ) => {
   const res = await fetch(`${API_URL}/${id}`, {

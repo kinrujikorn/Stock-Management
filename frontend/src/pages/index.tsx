@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div>
       <Navbar></Navbar>
-      <h1 className="text-2xl py-10 flex justify-center">Product</h1>
+      <h1 className="text-5xl py-10 flex justify-center">Product</h1>
 
       <div className="flex justify-center">
         <CategoryFilter

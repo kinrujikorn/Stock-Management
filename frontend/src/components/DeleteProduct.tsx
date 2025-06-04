@@ -6,6 +6,7 @@ type Product = {
   name: string;
   quantity: number;
   category_id: number;
+  price: number;
 };
 
 type Props = {
