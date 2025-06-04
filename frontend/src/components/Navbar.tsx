@@ -5,6 +5,7 @@ export default function Navbar() {
         <li className="flex space-x-20">
           <a href="/">Lovely Home</a>
           <a href="/products">Management</a>
+          <a href="/finance">Finance</a>
         </li>
       </ul>
     </nav>
