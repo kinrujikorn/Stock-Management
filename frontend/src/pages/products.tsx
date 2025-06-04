@@ -63,7 +63,7 @@ export default function ProductsList() {
               }}
               className="bg-blue-500 text-white rounded-lg px-6 py-2 hover:bg-blue-600"
             >
-              {showForm ? "Cancel" : "➕ Add Product"}
+              {showForm ? "Cancel" : "Add Product"}
             </button>
           </div>
         </div>
@@ -138,7 +138,13 @@ export default function ProductsList() {
               {products.map((p) => (
                 <tr key={p.id} className="hover:bg-gray-50">
                   <td className="text-black px-6 py-4">{p.name}</td>
-                  <td className="text-black px-6 py-4">{p.quantity}</td>
+                  <td className="text-black px-6 py-4">
+                    {p.quantity === 0 ? (
+                      <span className="text-red-500">Out of Stock</span>
+                    ) : (
+                      p.quantity
+                    )}
+                  </td>
                   <td className="text-black px-6 py-4">{p.price}</td>
                   <td className="text-black px-6 py-4 text-right">
                     <button

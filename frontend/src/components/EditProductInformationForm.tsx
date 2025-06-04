@@ -65,8 +65,10 @@ export default function EditProductInformationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded p-4">
-      <h2 className="text-xl mb-4 text-black">Edit: {product.name}</h2>
+    <form onSubmit={handleSubmit} className="bg-white  rounded p-2">
+      <h2 className="text-xl mb-4 text-black font-semibold">
+        Edit: {product.name}
+      </h2>
       <div className="space-y-4">
         <div>
           <h3 className="text-black mb-1">Name</h3>

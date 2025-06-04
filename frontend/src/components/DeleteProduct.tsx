@@ -32,8 +32,8 @@ export default function DeleteProduct({ product, onSuccess }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded p-4">
-      <h2 className="text-xl mb-4 text-black">Delete Product</h2>
+    <form onSubmit={handleSubmit} className="bg-white rounded p-2">
+      <h2 className="text-xl font-semibold mb-4 text-black">Delete Product</h2>
       <p className="text-gray-600 mb-4">
         Are you sure you want to delete: <strong>{product.name}</strong>?
       </p>
