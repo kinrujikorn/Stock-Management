@@ -37,13 +37,18 @@ export class ProductsService {
       quantity: data.quantity,
       category_id: data.category_id,
       price: data.price,
+      image_url: data.image_url, // Add this line to save image_url
     });
 
     return await this.productRepo.save(newProduct);
   }
 
-  update(id: string, data: CreateProductDto) {
-    return this.productRepo.update(id, data);
+  async update(id: string, data: CreateProductDto) {
+    // Make sure CreateProductDto includes image_url
+    return this.productRepo.update(id, {
+      ...data,
+      image_url: data.image_url,
+    });
   }
 
   remove(id: string) {

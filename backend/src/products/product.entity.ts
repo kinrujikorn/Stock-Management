@@ -24,6 +24,9 @@ export class Product {
   @Column({ default: 0 }) // Keep default, remove nullable
   price: number;
 
+  @Column({ nullable: true })
+  image_url: string;
+
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
   category: Category;

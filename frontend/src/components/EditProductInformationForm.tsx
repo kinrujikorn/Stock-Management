@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCategory } from "@/services/categoryService";
 import { updateProduct } from "@/services/productService";
+import { uploadImage } from "@/services/uploadService";
 
 type Product = {
   id: number;
@@ -8,6 +9,7 @@ type Product = {
   quantity: number;
   category_id: number;
   price: number;
+  image_url?: string;
 };
 
 type Category = {
@@ -30,7 +32,26 @@ export default function EditProductInformationForm({
     quantity: product.quantity,
     category_id: product.category_id,
     price: product.price,
+    image: null as File | null,
+    image_url: product.image_url || "",
   });
+
+  const [imagePreview, setImagePreview] = useState<string>(
+    product.image_url || ""
+  );
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setForm((prev) => ({ ...prev, image: file }));
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     getCategory().then(setCategories);
@@ -50,12 +71,20 @@ export default function EditProductInformationForm({
     e.preventDefault();
 
     try {
+      let image_url = form.image_url;
+      if (form.image) {
+        // Upload new image if one was selected
+        image_url = await uploadImage(form.image);
+      }
+
       await updateProduct(product.id, {
         name: form.name,
         quantity: Number(form.quantity),
         category_id: form.category_id,
-        price: form.price,
+        price: Number(form.price),
+        image_url,
       });
+
       alert("อัพเดทข้อมูลสินค้าสำเร็จ 🎉");
       onSuccess();
     } catch (err) {
@@ -66,10 +95,38 @@ export default function EditProductInformationForm({
 
   return (
     <form onSubmit={handleSubmit} className="bg-white  rounded p-2">
-      <h2 className="text-xl mb-4 text-black font-semibold">
+      {/* <h2 className="text-xl mb-4 text-black font-semibold">
         Edit: {product.name}
-      </h2>
+      </h2> */}
       <div className="space-y-4">
+        <div className="relative">
+          <h3 className="text-black mb-1">Product Image</h3>
+          <div className="flex items-center space-x-4">
+            <div className="relative w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full text-gray-500">
+                  No image
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+            </div>
+            <div className="text-sm text-gray-600">
+              <p>Click to upload new image</p>
+              <p>JPG, PNG up to 5MB</p>
+            </div>
+          </div>
+        </div>
         <div>
           <h3 className="text-black mb-1">Name</h3>
           <input

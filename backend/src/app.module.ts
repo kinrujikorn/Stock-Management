@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CategoryModule } from './category/category.module';
+import { MinioModule } from './minio/minio.module';
 
 @Module({
   imports: [
@@ -9,14 +10,15 @@ import { CategoryModule } from './category/category.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'postgres', // เปลี่ยนตามของมึง
-      password: 'KNIKNI49996', // เปลี่ยนตามของมึง
-      database: 'LovelyBag', // สร้างไว้ก่อน หรือให้ TypeORM สร้างให้ก็ได้
+      username: 'postgres',
+      password: 'KNIKNI49996',
+      database: 'LovelyBag',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // true ตอน dev เท่านั้น
+      synchronize: true,
     }),
     ProductsModule,
     CategoryModule,
+    MinioModule,
   ],
 })
 export class AppModule {}

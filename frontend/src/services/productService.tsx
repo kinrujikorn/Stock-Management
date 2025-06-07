@@ -9,6 +9,9 @@ export const getProducts = async () => {
 export const createProduct = async (product: {
   name: string;
   quantity: number;
+  category_id: number;
+  price: number;
+  image_url?: string; // Make sure this is included
 }) => {
   const res = await fetch(API_URL, {
     method: "POST",
@@ -21,21 +24,27 @@ export const createProduct = async (product: {
 
 export const updateProduct = async (
   id: number,
-  product: {
+  data: {
     name: string;
     quantity: number;
     category_id: number;
     price: number;
+    image_url?: string;
   }
 ) => {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const response = await fetch(`http://localhost:3000/products/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(product),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   });
 
-  if (!res.ok) throw new Error("อัพเดทข้อมูลสินค้าไม่สำเร็จ");
-  return res.json();
+  if (!response.ok) {
+    throw new Error("Failed to update product");
+  }
+
+  return response.json();
 };
 
 export const deleteProduct = async (id: number) => {
