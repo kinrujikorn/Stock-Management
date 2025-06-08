@@ -10,6 +10,8 @@ type Product = {
   price: number;
   image?: File | null;
   image_url?: string;
+  link?: string;
+  created_at?: string;
 };
 
 type Category = {
@@ -29,6 +31,8 @@ export default function AddProductForm({
     price: 0,
     image: null,
     image_url: "",
+    link: "",
+    created_at: new Date().toISOString(),
   });
 
   const [error, setErrors] = useState({
@@ -105,6 +109,7 @@ export default function AddProductForm({
       const productData = {
         ...form,
         image_url,
+        created_at: new Date().toISOString(),
       };
       delete productData.image;
 
@@ -124,7 +129,7 @@ export default function AddProductForm({
       <div className="bg-white text-black rounded-lg p-4 m-4">
         <h2>Add Product</h2>
 
-        <div className="mb-6">
+        <div className="grid grid-cols-2 gap-4 items-center mb-6">
           <div className="flex items-center space-x-4">
             <div className="relative w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
               {imagePreview ? (
@@ -149,6 +154,16 @@ export default function AddProductForm({
               <p>Click to upload product image</p>
               <p>JPG, PNG up to 5MB</p>
             </div>
+          </div>
+          <div>
+            <input
+              type="text"
+              name="link"
+              onChange={handleChange}
+              value={form.link}
+              placeholder="Link"
+              className="w-50 p-2 border-solid border-2 rounded-lg border-gray-300"
+            />
           </div>
         </div>
         <div className="grid grid-cols-5 gap-4 mt-6">

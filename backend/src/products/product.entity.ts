@@ -25,7 +25,13 @@ export class Product {
   price: number;
 
   @Column({ nullable: true })
+  link: string;
+
+  @Column({ nullable: true })
   image_url: string;
+
+  @Column({ nullable: true })
+  created_at: string;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })

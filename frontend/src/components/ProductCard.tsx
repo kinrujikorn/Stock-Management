@@ -5,11 +5,16 @@ export default function ProductCard({ product }: { product: Product }) {
     if (!url) return "/LV.jpg";
 
     try {
-      // Just return the URL as is - it should already be properly formatted from the backend
       return url;
     } catch (error) {
       console.error("Error with image URL:", url, error);
       return "/LV.jpg";
+    }
+  };
+
+  const handleMoreDetails = () => {
+    if (product.link) {
+      window.open(product.link, "_blank");
     }
   };
 
@@ -37,6 +42,18 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
       </p>
       <p className="text-gray-600">Price: ${product.price}</p>
+
+      <button
+        onClick={handleMoreDetails}
+        className={`mt-2 w-full py-2 rounded-lg transition-colors ${
+          product.link
+            ? "bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
+            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+        }`}
+        disabled={!product.link}
+      >
+        More Details
+      </button>
     </div>
   );
 }

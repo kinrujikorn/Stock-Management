@@ -37,7 +37,9 @@ export class ProductsService {
       quantity: data.quantity,
       category_id: data.category_id,
       price: data.price,
-      image_url: data.image_url, // Add this line to save image_url
+      image_url: data.image_url,
+      link: data.link,
+      created_at: data.created_at || new Date().toISOString(),
     });
 
     return await this.productRepo.save(newProduct);

@@ -18,7 +18,7 @@ export default function Search({ onSearchChange }: SearchProps) {
         placeholder="Searching"
         value={search}
         onChange={handleChange}
-        className="px-4 py-2 border rounded w-200"
+        className="px-4 py-2 rounded w-200 text-white bg-[#212121]"
       />
     </div>
   );

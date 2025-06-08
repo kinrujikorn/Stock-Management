@@ -7,6 +7,8 @@ type Product = {
   quantity: number;
   category_id: number;
   price: number;
+  image_url?: string;
+  link?: string;
 };
 
 type Props = {

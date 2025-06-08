@@ -10,6 +10,7 @@ type Product = {
   category_id: number;
   price: number;
   image_url?: string;
+  link?: string;
 };
 
 type Category = {
@@ -34,6 +35,7 @@ export default function EditProductInformationForm({
     price: product.price,
     image: null as File | null,
     image_url: product.image_url || "",
+    link: product.link,
   });
 
   const [imagePreview, setImagePreview] = useState<string>(
@@ -83,6 +85,7 @@ export default function EditProductInformationForm({
         category_id: form.category_id,
         price: Number(form.price),
         image_url,
+        link: form.link,
       });
 
       alert("อัพเดทข้อมูลสินค้าสำเร็จ 🎉");
@@ -182,6 +185,18 @@ export default function EditProductInformationForm({
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <h3 className="text-black mb-1">Link</h3>
+          <input
+            type="text"
+            name="link"
+            value={form.link}
+            onChange={handleChange}
+            className="w-full p-2 border rounded text-black"
+            placeholder="Link"
+          />
         </div>
 
         <button

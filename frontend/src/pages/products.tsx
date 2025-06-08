@@ -8,6 +8,9 @@ import DeleteProduct from "@/components/DeleteProduct";
 import Modal from "@/components/ModalForm";
 import { FiEdit } from "react-icons/fi";
 import { BsTrash } from "react-icons/bs";
+import Search from "@/components/Search";
+import Pagination from "@/components/Pagination";
+// import { Product } from "@/types/product";
 
 type Product = {
   id: number;
@@ -24,10 +27,29 @@ export default function ProductsList() {
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Change this value to show different number of items
 
+  const currentItems = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   useEffect(() => {
     getProducts().then(setProducts);
   }, []);
+
+  useEffect(() => {
+    const filtered = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchTerm, products]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   const handleFormSuccess = () => {
     setShowForm(false);
@@ -59,7 +81,10 @@ export default function ProductsList() {
       <main className="ml-40 w-full p-8">
         <div className="container mx-auto px-4 pt-20">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-bold">Product List 🧾</h2>
+            <h2 className="text-3xl ">Product List 🧾</h2>
+
+            <Search onSearchChange={setSearchTerm} />
+
             <div className="space-x-4">
               <button
                 onClick={() => {
@@ -142,7 +167,7 @@ export default function ProductsList() {
           {/* Product List with inline actions */}
           <div className="bg-white rounded-lg shadow">
             <table className="min-w-full">
-              <thead className="bg-gray-50 rounded-lg">
+              <thead className="rounded-lg">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Name
@@ -159,7 +184,7 @@ export default function ProductsList() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {products.map((p) => (
+                {currentItems.map((p) => (
                   <tr key={p.id} className="hover:bg-gray-50">
                     <td className="text-black px-6 py-4">{p.name}</td>
                     <td className="text-black px-6 py-4">
@@ -190,6 +215,12 @@ export default function ProductsList() {
                 ))}
               </tbody>
             </table>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={filteredProducts.length}
+              itemsPerPage={itemsPerPage}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
       </main>

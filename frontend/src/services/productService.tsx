@@ -11,7 +11,9 @@ export const createProduct = async (product: {
   quantity: number;
   category_id: number;
   price: number;
-  image_url?: string; // Make sure this is included
+  image_url?: string;
+  link?: string;
+  created_at: string;
 }) => {
   const res = await fetch(API_URL, {
     method: "POST",
@@ -30,6 +32,7 @@ export const updateProduct = async (
     category_id: number;
     price: number;
     image_url?: string;
+    link?: string;
   }
 ) => {
   const response = await fetch(`http://localhost:3000/products/${id}`, {
