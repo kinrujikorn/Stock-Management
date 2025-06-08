@@ -41,7 +41,7 @@ export default function ProductCard({ product }: { product: Product }) {
           product.quantity
         )}
       </p>
-      <p className="text-gray-600">Price: ${product.price}</p>
+      <p className="text-gray-600">Price: THB {product.price}</p>
 
       <button
         onClick={handleMoreDetails}

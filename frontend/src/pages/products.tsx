@@ -10,7 +10,6 @@ import { FiEdit } from "react-icons/fi";
 import { BsTrash } from "react-icons/bs";
 import Search from "@/components/Search";
 import Pagination from "@/components/Pagination";
-// import { Product } from "@/types/product";
 
 type Product = {
   id: number;
@@ -81,7 +80,7 @@ export default function ProductsList() {
       <main className="ml-40 w-full p-8">
         <div className="container mx-auto px-4 pt-20">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl ">Product List 🧾</h2>
+            <h2 className="text-4xl ">Product List </h2>
 
             <Search onSearchChange={setSearchTerm} />
 

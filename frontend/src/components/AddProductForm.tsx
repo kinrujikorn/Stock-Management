@@ -195,7 +195,7 @@ export default function AddProductForm({
               type="text"
               name="quantity"
               onChange={handleChange}
-              value={form.quantity}
+              value={form.quantity === 0 ? "" : form.quantity}
               placeholder="Quantity"
               pattern="\d*"
               className={`w-full p-2 border-solid border-2 rounded-lg ${
@@ -214,7 +214,7 @@ export default function AddProductForm({
               type="text"
               name="price"
               onChange={handleChange}
-              value={form.price}
+              value={form.price === 0 ? "" : form.price}
               placeholder="Price"
               pattern="\d*"
               className={`w-full p-2 border-solid border-2 rounded-lg ${
